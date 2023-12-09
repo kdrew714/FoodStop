@@ -12,21 +12,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-def map_creator(latitude, longitude):
-    from streamlit_folium import folium_static
-    import folium
-
-
-
-    # center on the station
-    m = folium.Map(location=[latitude, longitude], zoom_start=10)
-
-    # add marker for the station
-    folium.Marker([latitude, longitude], popup="Station", tooltip="Station").add_to(m)
-
-    # call to render Folium map in Streamlit
-    folium_static(m, width= 450, height=420)
-
 
 api_key = "8fb0081bddf149a2b32bb6de769d19ae"
 
@@ -326,7 +311,11 @@ elif page == "🥡 Search for restaurant":
                     st.image(restaurant_foodIMG, width=350)
 
                 with right_column:
-                    map_creator(restaurant_lat, restaurant_long)
+                    st.map(
+                           latitude= restaurant_lat,
+                           longitude= restaurant_long,
+                           size= 20
+                    )
             counter += 1
     except IndexError as e:
         st.info("You have reached the end of the results.")
