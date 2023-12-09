@@ -207,9 +207,7 @@ elif page == "🥘 Generate meal plan":
         url = (f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}&timeFrame={duration}"
                f"&targetCalories={target_calories}&diet={diet}&exclude={diet_restrictions}")
         meal_list = requests.get(url).json()
-        st.write(meal_list)
-
-
+        
         # create columns for meal_list results
         counter = 0
         for recipe in meal_list["meals"]:
@@ -247,7 +245,7 @@ elif page == "🥘 Generate meal plan":
         url = (f"https://api.spoonacular.com/mealplanner/generate?apiKey={api_key}&timeFrame={duration}"
                f"&targetCalories={target_calories}&diet={diet}&exclude={diet_restrictions}")
         meal_list = requests.get(url).json()
-        st.write(meal_list)
+        
         with st.container():
             left_column, right_column = st.columns(2)
             counter = 0
@@ -311,11 +309,17 @@ elif page == "🥡 Search for restaurant":
                     st.image(restaurant_foodIMG, width=350)
 
                 with right_column:
-                    st.map(
-                           latitude= restaurant_lat,
-                           longitude= restaurant_long,
-                           size= 20
-                    )
+                    df = pd.DataFrame({
+                        "col1": restaurant_lat,
+                        "col2": restaurant_long,
+                        "col3": np.random.rand(1000, 4).tolist(),
+                    })
+
+                    st.map(df,
+                           latitude='col1',
+                           longitude='col2',
+                           color='col3',
+                           use_container_width = True)
             counter += 1
     except IndexError as e:
         st.info("You have reached the end of the results.")
